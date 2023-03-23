@@ -1,15 +1,11 @@
 package com.mangjoo.io.securityexample.security.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mangjoo.io.securityexample.security.handler.FailureHandler;
 import com.mangjoo.io.securityexample.security.jwt.JwtAuthenticationToken;
-import com.mangjoo.io.securityexample.security.jwt.JwtService;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -18,26 +14,16 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 
 import java.io.IOException;
 
-@Order(1)
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    private final ObjectMapper objectMapper;
-    private final JwtService jwtService;
-
     private final FailureHandler failureHandler;
 
-    public JwtAuthenticationFilter(String defaultFilterProcessesUrl, ObjectMapper objectMapper, JwtService jwtService, FailureHandler failureHandler) {
+    public JwtAuthenticationFilter(String defaultFilterProcessesUrl, FailureHandler failureHandler) {
         super(defaultFilterProcessesUrl);
-        this.objectMapper = objectMapper;
-        this.jwtService = jwtService;
         this.failureHandler = failureHandler;
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
-        if (!request.getContentType().equals("application/json")) {
-            throw new IllegalArgumentException("Content type must be application/json");
-        }
 
         String jwt = request.getHeader("Authorization");
 
@@ -45,9 +31,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
             throw new IllegalArgumentException("Authorization header must be provided");
         }
 
-        Claims claims = jwtService.parseJwt(jwt);
-
-        return getAuthenticationManager().authenticate(new JwtAuthenticationToken(claims));
+        return getAuthenticationManager().authenticate(new JwtAuthenticationToken(jwt));
     }
 
     @Override
