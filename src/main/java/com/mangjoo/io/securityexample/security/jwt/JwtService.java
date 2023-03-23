@@ -33,9 +33,10 @@ public class JwtService {
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuedAt(Timestamp.valueOf(now))
                 .setExpiration(Timestamp.valueOf(authTime))
-                .claim("id", id)
-                .claim("role", role)
-                .signWith(SignatureAlgorithm.RS256, secretKey)
+                .setId(id.toString())
+//                .claim("id", id)
+                .claim("role", "ROLE_" + role)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
