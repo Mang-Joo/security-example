@@ -8,7 +8,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +17,6 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import java.io.IOException;
 
 @Slf4j
-@Order(2)
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final ObjectMapper objectMapper;
