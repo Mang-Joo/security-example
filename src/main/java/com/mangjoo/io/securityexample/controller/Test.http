@@ -1,0 +1,12 @@
+###
+POST http://localhost:8080/api/v1/login
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "1234"
+}
+
+###
+GET http://localhost:8080/api/v1/user/test
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2Nzk1ODA5ODIsImV4cCI6MTc2NTk4MDk4MiwianRpIjoiMSIsInJvbGUiOiJST0xFX1VTRVIifQ.1oNSUA-oq1rgKz9UY8VK6YtTqkKyd5QzfSP0KAix8Qg
