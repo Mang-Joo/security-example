@@ -1,6 +1,5 @@
 package com.mangjoo.io.securityexample.security.jwt;
 
-import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -13,22 +12,21 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
      * @param authorities the collection of <tt>GrantedAuthority</tt>s for the principal
      * represented by this authentication object.
      */
-    private Claims claims;
-    private String username;
+    private final String token;
 
-    public JwtAuthenticationToken(Claims claimsJws) {
-        super(null);
-        this.claims = claimsJws;
-        this.setAuthenticated(false);
-        this.username = null;
+    public JwtAuthenticationToken(String token, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities);
+        this.token = token;
+        this.eraseCredentials();
+        super.setAuthenticated(true);
     }
 
-    public JwtAuthenticationToken(String username, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
-        this.eraseCredentials();
-        this.username = username;
-        super.setAuthenticated(true);
-        this.claims = null;
+    public JwtAuthenticationToken(String token) {
+        this(token, null);
+    }
+
+    public String getToken() {
+        return token;
     }
 
     @Override
